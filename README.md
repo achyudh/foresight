@@ -6,7 +6,7 @@ Foresight is an app that uses the Google maps API and creates markers that conve
 
 Information about accessible facilities such as the following will be available:
 * Entrances
-* Elevators,
+* Elevators
 * Toilets
 * Parking spaces
 * Navigation
