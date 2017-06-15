@@ -32,6 +32,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity"
+        android:parentActivityName=".MainActivity">
+
+    </activity>
+        <activity android:name=".UserActivity"
             android:parentActivityName=".MainActivity">
 
         </activity>
