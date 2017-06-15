@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 String name = user.getDisplayName();
                                 String email = user.getEmail();
                                 String uid = user.getUid();
-                                Contributor contribObj = new Contributor(name, email, uid, 108);
+                                Contributor contribObj = new Contributor(name, email, uid, 0, 0, 0, 0, 0, 0);
                                 mDatabase.child("users").child(contribObj.uid).setValue(contribObj);
 
                                 Intent intent = new Intent(MainActivity.this, UserActivity.class);

@@ -83,9 +83,9 @@ public class DetailActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot snapshot) {
                     PlaceWrapper placeWrapperDB = snapshot.getValue(PlaceWrapper.class);
                     if (placeWrapperDB == null) {
-                        placeWrapper.rating = -1;
+//                        placeWrapper.rating = -1;
                         mDatabase.child(placeId).setValue(placeWrapper);
-                        placeWrapperDB = new PlaceWrapper(placeWrapper);
+                        placeWrapperDB = placeWrapper;
                     }
                     ratingTextView.setText(placeWrapperDB.rating + "");
 
@@ -152,7 +152,7 @@ public class DetailActivity extends AppCompatActivity {
         if (placeWrapper.url != null)
             websiteTextView.setText(placeWrapper.url.toString());
 
-        new HeavyLift().execute();
+//        new HeavyLift().execute();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://maps.googleapis.com/maps/api/place/details/json?placeid="+ placeWrapper.id + "&key=AIzaSyDX6lEQZCGZ4io-K4GSpnQ1zJCJ-bLNw6o";

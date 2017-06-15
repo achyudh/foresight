@@ -12,10 +12,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.26"
         android:gravity="center"
         android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_weight="0.26">
+        android:weightSum="1">
 
         <ImageView
             android:id="@+id/profile_imageview"
@@ -25,6 +25,7 @@
             tools:src="@drawable/ic_person_black_24dp" />
 
         <TextView
+            android:id="@+id/text_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -40,62 +41,70 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editTextReview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1.05"
             android:hint="Write a review about the place"
-            android:padding="16dp"
-            android:layout_weight="1.05" />
+            android:padding="16dp" />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="32dp">
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
         <CheckBox
             android:id="@+id/entrance_cb"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Entrances"
             android:paddingLeft="32dp"
-            style="@style/TextAppearance.AppCompat.Body1"/>
+            android:text="Entrances" />
 
         <CheckBox
             android:id="@+id/elevator_cb"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Elevators"
             android:paddingLeft="32dp"
-            style="@style/TextAppearance.AppCompat.Body1"
-            />
+            android:text="Elevators" />
 
         <CheckBox
             android:id="@+id/toilet_cb"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Toilets"
             android:paddingLeft="32dp"
-            style="@style/TextAppearance.AppCompat.Body1"/>
+            android:text="Special Restrooms" />
 
         <CheckBox
-            android:id="@+id/parking"
+            android:id="@+id/parking_cb"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parking Space"
             android:paddingLeft="32dp"
-            style="@style/TextAppearance.AppCompat.Body1"/>
+            android:text="Disabled Parking" />
 
         <CheckBox
             android:id="@+id/navigation_cb"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Navigation"
             android:paddingLeft="32dp"
-            style="@style/TextAppearance.AppCompat.Body1"/>
+            android:text="Navigation" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="0.26"
+        android:text="Submit" />
 
 
 </LinearLayout>
