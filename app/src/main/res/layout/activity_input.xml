@@ -6,46 +6,96 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context="com.example.rkumar32.foresight.InputActivity">
-    
-    <CheckBox
-        android:id="@+id/entrance_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Entrances"
-        android:paddingLeft="32dp"
-        android:textSize="24sp"/>
+    tools:context="com.example.rkumar32.foresight.InputActivity"
+    android:weightSum="1">
 
-    <CheckBox
-        android:id="@+id/elevator_cb"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Elevators"
-        android:paddingLeft="32dp"
-        android:textSize="24sp"/>
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_weight="0.26">
 
-    <CheckBox
-        android:id="@+id/toilet_cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Toilets"
-        android:paddingLeft="32dp"
-        android:textSize="24sp"/>
+        <ImageView
+            android:id="@+id/profile_imageview"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:paddingBottom="6dp"
+            tools:src="@drawable/ic_person_black_24dp" />
 
-    <CheckBox
-        android:id="@+id/parking"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Parking Space"
-        android:paddingLeft="32dp"
-        android:textSize="24sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="User Name"
+            android:textStyle="bold" />
 
-    <CheckBox
-        android:id="@+id/navigation_cb"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Write a review about the place"
+            android:padding="16dp"
+            android:layout_weight="1.05" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Navigation"
-        android:paddingLeft="32dp"
-        android:textSize="24sp"/>
+        android:orientation="vertical"
+        android:layout_marginTop="32dp">
+        <CheckBox
+            android:id="@+id/entrance_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrances"
+            android:paddingLeft="32dp"
+            style="@style/TextAppearance.AppCompat.Body1"/>
+
+        <CheckBox
+            android:id="@+id/elevator_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elevators"
+            android:paddingLeft="32dp"
+            style="@style/TextAppearance.AppCompat.Body1"
+            />
+
+        <CheckBox
+            android:id="@+id/toilet_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toilets"
+            android:paddingLeft="32dp"
+            style="@style/TextAppearance.AppCompat.Body1"/>
+
+        <CheckBox
+            android:id="@+id/parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parking Space"
+            android:paddingLeft="32dp"
+            style="@style/TextAppearance.AppCompat.Body1"/>
+
+        <CheckBox
+            android:id="@+id/navigation_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Navigation"
+            android:paddingLeft="32dp"
+            style="@style/TextAppearance.AppCompat.Body1"/>
+    </LinearLayout>
+
+
 
 </LinearLayout>

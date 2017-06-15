@@ -35,10 +35,16 @@
         android:parentActivityName=".MainActivity">
 
     </activity>
+
         <activity android:name=".UserActivity"
             android:parentActivityName=".MainActivity">
 
-        </activity>
+    </activity>
+
+    <activity android:name=".InputActivity"
+        android:parentActivityName=".DetailActivity">
+
+    </activity>
     </application>
 
 </manifest>

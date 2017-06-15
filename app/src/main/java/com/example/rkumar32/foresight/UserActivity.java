@@ -32,9 +32,7 @@ public class UserActivity extends AppCompatActivity {
     private ImageView image_medal;
     private String email = "";
     private Button button_signout;
-
     private DatabaseReference mDatabase;
-    private String userID;
 
     public void signout_call(View view) {
         if (view.getId() == R.id.button_signout) {

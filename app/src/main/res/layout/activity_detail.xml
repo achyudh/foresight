@@ -6,10 +6,13 @@
     android:layout_width="match_parent">
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/contribute_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_edit_black_24dp"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -130,6 +133,7 @@
                         android:src="@drawable/ic_check_black_24dp" />
 
                     <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="7"

@@ -13,35 +13,65 @@ import java.net.URI;
  */
 
 public class PlaceWrapper implements Parcelable {
-    private String name;
-    private String address;
-    private String id;
-    private String phoneNumber;
-    private Uri url;
-    private float rating;
-    public boolean hasRampEntrance;
-    public boolean hasElevator;
-    public boolean hasRestroom;
-    public boolean hasParking;
-    public boolean hasAccNav;
+    public String name;
+    public String address;
+    public String id;
+    public String phoneNumber;
+    public String url;
+    public float rating;
+    public int hasRampEntrance;
+    public int hasElevator;
+    public int hasRestroom;
+    public int hasParking;
+    public int hasAccNav;
+
+    public PlaceWrapper() {
+
+    }
 
     public PlaceWrapper(Place place) {
         name = place.getName().toString();
         address = place.getAddress().toString();
         id = place.getId();
-        phoneNumber = place.getPhoneNumber().toString();
-        url = place.getWebsiteUri();
+        if (place.getPhoneNumber() != null)
+            phoneNumber = place.getPhoneNumber().toString();
+        else
+            phoneNumber = "";
+        if (place.getWebsiteUri() != null)
+            url = place.getWebsiteUri().toString();
+        else
+            url = "";
         rating = place.getRating();
+        hasRampEntrance = 0;
+        hasElevator = 0;
+        hasRestroom = 0;
+        hasParking = 0;
+        hasAccNav = 0;
     }
 
-    public PlaceWrapper(String name, String id, String phoneNumber, String address, Uri url, boolean hasRampEntrance, boolean hasElevator, boolean hasRestroom, boolean hasParking, boolean hasAccNav) {
+    public PlaceWrapper(PlaceWrapper place) {
+        name = place.name;
+        address = place.address;
+        id = place.id;
+        phoneNumber = place.phoneNumber;
+        url = place.url;
+        rating = place.rating;
+        hasRampEntrance = place.hasRampEntrance;
+        hasElevator = place.hasElevator;
+        hasRestroom = place.hasRestroom;
+        hasParking = place.hasParking;
+        hasAccNav = place.hasAccNav;
+    }
+
+
+    public PlaceWrapper(String name, String id, String phoneNumber, String address, String url, int hasRampEntrance, int hasElevator, int hasRestroom, int hasParking, int hasAccNav) {
         this(id, name, hasRampEntrance, hasElevator, hasRestroom, hasParking, hasAccNav);
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.url = url;
     }
 
-    public PlaceWrapper(String name, String id, boolean hasRampEntrance, boolean hasElevator, boolean hasRestroom, boolean hasParking, boolean hasAccNav) {
+    public PlaceWrapper(String name, String id, int hasRampEntrance, int hasElevator, int hasRestroom, int hasParking, int hasAccNav) {
         this.id = id;
         this.name = name;
         this.hasRampEntrance = hasRampEntrance;
@@ -54,11 +84,11 @@ public class PlaceWrapper implements Parcelable {
     public PlaceWrapper(String name, String id) {
         this.id = id;
         this.name = name;
-        this.hasRampEntrance = false;
-        this.hasElevator = false;
-        this.hasRestroom = false;
-        this.hasParking = false;
-        this.hasAccNav = false;
+        this.hasRampEntrance = 0;
+        this.hasElevator = 0;
+        this.hasRestroom = 0;
+        this.hasParking = 0;
+        this.hasAccNav = 0;
     }
 
     private PlaceWrapper(Parcel in) {
@@ -66,13 +96,13 @@ public class PlaceWrapper implements Parcelable {
         address = in.readString();
         id = in.readString();
         phoneNumber = in.readString();
-        url = in.readParcelable(Uri.class.getClassLoader());
+        url = in.readString();
         rating = in.readFloat();
-        hasRampEntrance = in.readByte() != 0;
-        hasElevator = in.readByte() != 0;
-        hasRestroom = in.readByte() != 0;
-        hasParking = in.readByte() != 0;
-        hasAccNav = in.readByte() != 0;
+        hasRampEntrance = in.readInt();
+        hasElevator = in.readInt();
+        hasRestroom = in.readInt();
+        hasParking = in.readInt();
+        hasAccNav = in.readInt();
 
     }
 
@@ -80,42 +110,18 @@ public class PlaceWrapper implements Parcelable {
         return 0;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public Uri getUrl() {
-        return url;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
         out.writeString(address);
         out.writeString(id);
         out.writeString(phoneNumber);
-        out.writeParcelable(url, 0);
+        out.writeString(url);
         out.writeFloat(rating);
-        out.writeByte((byte) (hasRampEntrance ? 1 : 0));
-        out.writeByte((byte) (hasElevator ? 1 : 0));
-        out.writeByte((byte) (hasRestroom ? 1 : 0));
-        out.writeByte((byte) (hasParking ? 1 : 0));
-        out.writeByte((byte) (hasAccNav ? 1 : 0));
+        out.writeInt(hasRampEntrance);
+        out.writeInt(hasElevator);
+        out.writeInt(hasRestroom);
+        out.writeInt(hasParking);
+        out.writeInt(hasAccNav);
     }
 
     public static final Parcelable.Creator<PlaceWrapper> CREATOR
