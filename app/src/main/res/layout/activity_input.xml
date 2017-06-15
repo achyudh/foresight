@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    tools:context="com.example.rkumar32.foresight.InputActivity">
+    
+    <CheckBox
+        android:id="@+id/entrance_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entrances"
+        android:paddingLeft="32dp"
+        android:textSize="24sp"/>
+
+    <CheckBox
+        android:id="@+id/elevator_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Elevators"
+        android:paddingLeft="32dp"
+        android:textSize="24sp"/>
+
+    <CheckBox
+        android:id="@+id/toilet_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toilets"
+        android:paddingLeft="32dp"
+        android:textSize="24sp"/>
+
+    <CheckBox
+        android:id="@+id/parking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parking Space"
+        android:paddingLeft="32dp"
+        android:textSize="24sp"/>
+
+    <CheckBox
+        android:id="@+id/navigation_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Navigation"
+        android:paddingLeft="32dp"
+        android:textSize="24sp"/>
+
+</LinearLayout>

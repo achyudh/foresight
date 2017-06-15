@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public static final int PLACE_PICKER_REQUEST = 1;
     public static final int RC_SIGN_IN = 2;
     public static final String PLACE_KEY = "place";
+    public static final String LOG_TAG = MainActivity.class.getCanonicalName();
     public GoogleApiClient mGoogleApiClient;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -104,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+            }
+            else {
+                Log.d(LOG_TAG, result.getStatus().toString());
             }
         }
 
