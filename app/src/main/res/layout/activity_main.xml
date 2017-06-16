@@ -24,11 +24,11 @@
             app:srcCompat="@drawable/wheelchair" />
     </LinearLayout>
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/button_login"
+    <Button
+        android:id="@+id/button_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:text="View Profile" />
 
     <Button
         android:id="@+id/button_picker"
