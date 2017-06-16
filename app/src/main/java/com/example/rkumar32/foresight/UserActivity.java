@@ -33,7 +33,10 @@ public class UserActivity extends AppCompatActivity {
     private TextView text_photos;
     private TextView text_answers;
     private TextView text_edits;
-    private ImageView image_medal;
+    private ImageView image_gold;
+    private ImageView image_silver;
+    private ImageView image_bronze;
+    private ImageView image_heart;
     //private String email = "";
     private Button button_signout;
     private DatabaseReference mDatabase;
@@ -66,6 +69,10 @@ public class UserActivity extends AppCompatActivity {
         text_photos=(TextView) findViewById(R.id.text_photos);
         text_answers=(TextView) findViewById(R.id.text_answers);
         text_edits=(TextView) findViewById(R.id.text_edits);
+        image_gold=(ImageView) findViewById(R.id.imageViewGold);
+        image_silver=(ImageView) findViewById(R.id.imageViewSilver);
+        image_bronze=(ImageView) findViewById(R.id.imageViewBronze);
+        image_heart=(ImageView) findViewById(R.id.imageViewHeart);
 
         progressBar=(ProgressBar) findViewById(R.id.progress_bar);
         ImageView profile_pic = (ImageView) findViewById(R.id.profile_imageview);
@@ -80,14 +87,36 @@ public class UserActivity extends AppCompatActivity {
                 String uri = "";
                 int points = (person.points);
                 int level = points/10;
-                text_pointsandlevel.setText("Points: " + Integer.toString(points)+ " Level: " + Integer.toString(level));
+                text_pointsandlevel.setText("Points: " + Integer.toString(points)+ " | Level: " + Integer.toString(level));
                 progressBar.setProgress(points%10);
                 text_edits.setText(Integer.toString(person.edits));
                 text_ratings.setText(Integer.toString(person.ratings));
                 text_reviews.setText(Integer.toString(person.reviews));
                 text_photos.setText(Integer.toString(person.photos));
                 text_answers.setText(Integer.toString(person.answers));
-                // TODO: Insert medals
+
+                if(level>=30)
+                {
+                    image_heart.setVisibility(View.GONE);
+                }
+                else if(level<30 && level>=20)
+                {
+                    image_gold.setVisibility(View.GONE);
+                    image_heart.setVisibility(View.GONE);
+                }
+                else if(level<20 && level>3)
+                {
+                    image_gold.setVisibility(View.GONE);
+                    image_silver.setVisibility(View.GONE);
+                    image_heart.setVisibility(View.GONE);
+                }
+                else
+                {
+                    image_gold.setVisibility(View.GONE);
+                    image_silver.setVisibility(View.GONE);
+                    image_bronze.setVisibility(View.GONE);
+                }
+
             }
 
 

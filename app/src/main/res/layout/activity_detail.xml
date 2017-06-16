@@ -62,7 +62,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_playlist_add_black_24dp" />
+                        android:src="@drawable/ic_navigation_black_24dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_share_black_24dp" />
+                        android:src="@drawable/ic_directions_car_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView2"
@@ -114,6 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#cccccc" />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -314,11 +316,11 @@
                 android:layout_height="1dp"
                 android:background="#cccccc" />
 
-            <ImageView
-                android:id="@+id/add_photo_imageview"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="92dp"
-                android:src="@drawable/ic_add_a_photo_black_24dp" />
+                android:layout_height="144dp"
+                android:scrollbars="horizontal" />
 
             <LinearLayout
                 android:id="@+id/add_photo_layout"
@@ -545,37 +547,6 @@
                 android:layout_height="1dp"
                 android:background="#cccccc" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/profile_imageview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:src="@drawable/ic_person_black_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rate and review"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tell everyone about your experience"
-                    android:textStyle="bold" />
-
-                <RatingBar
-                    android:id="@+id/rating_bar_add_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -45,10 +45,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public GoogleApiClient mGoogleApiClient;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private Button mButton;
+    private Button mButton, uButton;
     private Contributor contributorDB;
     private PlaceWrapper placeWrapper;
-    private SignInButton signInButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,19 +81,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     }
                 });
-        signInButton = (SignInButton) findViewById(R.id.button_login);
-        signInButton.setOnClickListener(
+        uButton = (Button) findViewById(R.id.button_user);
+        uButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        switch (v.getId()) {
-                            case R.id.button_login:
-                                signIn();
-                                break;
+                        Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                        startActivity(intent);
                     }
-                }});
-//        if(contributorDB == null)
-//            signIn();
+                });
+        if(contributorDB == null)
+            signIn();
     }
 
     private void signIn() {
@@ -155,9 +152,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                         System.out.println("Firebase place read failed: " + firebaseError.getMessage());
                                     }
                                 });
-
-                                Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                                startActivity(intent);
+                                
                             }
 //                            updateUI(user);
                         } else {
