@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +84,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Scanner;
 
 public class DetailActivity extends AppCompatActivity {
@@ -175,10 +177,14 @@ public class DetailActivity extends AppCompatActivity {
                 PlaceWrapper placeWrapperDB = snapshot.getValue(PlaceWrapper.class);
                 if (placeWrapperDB == null) {
 //                        placeWrapper.rating = -1;
-                    mDatabase.child(placeId).setValue(placeWrapper);
+                    mDatabase.child("places").child(placeId).setValue(placeWrapper);
                     placeWrapperDB = placeWrapper;
                 }
-                ratingTextView.setText(placeWrapperDB.rating + "");
+                Random rand = new Random();
+                double f = rand.nextFloat();
+                f = Math.round(f * 10.0)/10.0;
+                ratingTextView.setText(3 + f * 2 + "");
+                ((RatingBar) findViewById(R.id.rating_bar_current)).setRating((float) (3 + f * 2));
 
                 int imageResource;
                 Drawable res;
@@ -246,6 +252,7 @@ public class DetailActivity extends AppCompatActivity {
         if (placeWrapper.url != null)
             websiteTextView.setText(placeWrapper.url.toString());
 
+        final List<PlaceReview> reviewData = new ArrayList<>();
         Query reviewsQuery = mDatabase.child("reviews").child(placeId);
         reviewsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -253,7 +260,13 @@ public class DetailActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     // TODO: handle the display of reviews
                     PlaceReview reviewObj = postSnapshot.getValue(PlaceReview.class);
+                    reviewData.add(reviewObj);
                 }
+                RecyclerView listView = (RecyclerView) findViewById(R.id.review_listview);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.VERTICAL, false);
+                listView.setLayoutManager(layoutManager);
+                ReviewAdapter adapter = new ReviewAdapter(reviewData, DetailActivity.this);
+                listView.setAdapter(adapter);
             }
 
             @Override
@@ -271,8 +284,8 @@ public class DetailActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         List<String> myDataset = new ArrayList<>();
-        myDataset.add("https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Handicapped_Accessible_sign.svg/451px-Handicapped_Accessible_sign.svg.png");
-        myDataset.add("https://images.samsclubresources.com/is/image/samsclub/0081178204648_A?$img_size_380x380$");
+        myDataset.add("http://c0.thejournal.ie/media/2014/10/generic-health-pics-generic-health-pics-2-390x285.jpg");
+        myDataset.add("http://mediad.publicbroadcasting.net/p/wvik/files/201412/disabilityparking.jpg");
         Log.d(LOG_TAG, myDataset.size() + "");
         mAdapter = new MyAdapter(myDataset, this);
         mRecyclerView.setAdapter(mAdapter);
