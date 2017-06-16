@@ -1,8 +1,10 @@
 package com.example.rkumar32.foresight;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rkumar32.foresight.utility.Contributor;
 import com.example.rkumar32.foresight.utility.ImageLoadTask;
 import com.example.rkumar32.foresight.utility.PlaceWrapper;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,10 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 public class InputActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
+    private Contributor contributor;
+    private PlaceWrapper placeWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +52,30 @@ public class InputActivity extends AppCompatActivity {
         textUsername.setText(user.getDisplayName());
 
         Intent intent = getIntent();
-        final PlaceWrapper placeWrapper = intent.getParcelableExtra(MainActivity.PLACE_KEY);
-
-
+        placeWrapper = intent.getParcelableExtra(MainActivity.PLACE_KEY);
+        contributor = intent.getParcelableExtra(MainActivity.CONT_KEY);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-
-
+        int pointsToIncr = 1;
+        if (contributor == null) {
+            contributor = new Contributor(user.getDisplayName(), user.getEmail(), user.getUid(), 0, 0, 0, 0, 0, 0);
+        }
+        if (!editTextReview.getText().toString().equals("")) {
+            pointsToIncr += 2;
+            contributor.reviews += 1;
+        }
+        contributor.answers += 1;
+        contributor.points += pointsToIncr;
+        final Contributor contributorDB = contributor;
         Button mButton = (Button) findViewById(R.id.button_submit);
         mButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mDatabase.child("reviews").child(placeWrapper.id).child(user.getUid()).setValue(editTextReview.getText().toString());
+                        mDatabase.child("users").child(contributorDB.uid).setValue(contributorDB);
+                        if (!editTextReview.getText().toString().equals(""))
+                            mDatabase.child("reviews").child(placeWrapper.id).child(user.getUid()).setValue(editTextReview.getText().toString());
+
                         mDatabase.child("places").child(placeWrapper.id).addValueEventListener(new ValueEventListener() {
 
                         PlaceWrapper placeWrapperDB;
@@ -102,9 +120,29 @@ public class InputActivity extends AppCompatActivity {
                             System.out.println("Firebase place read failed: " + firebaseError.getMessage());
                         }
                     });
+                        onBackPressed();
 
                     }
                 });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.CONT_KEY, contributor);
+        intent.putExtra(MainActivity.PLACE_KEY, placeWrapper);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

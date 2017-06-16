@@ -60,7 +60,6 @@ public class UserActivity extends AppCompatActivity {
 
         text_pointsandlevel = (TextView) findViewById(R.id.text_pointsandlevel);
         button_signout = (Button) findViewById(R.id.button_signout);
-        image_medal= (ImageView)findViewById(R.id.image_medal);
         text_username=(TextView) findViewById(R.id.text_username);
         text_reviews=(TextView) findViewById(R.id.text_reviews);
         text_ratings=(TextView) findViewById(R.id.text_ratings);

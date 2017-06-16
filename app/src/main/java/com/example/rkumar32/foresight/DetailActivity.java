@@ -42,6 +42,8 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView parkingMarker;
     private ImageView navigationMarker;
     private FloatingActionButton mInputActivityButton;
+    private Contributor contributorDB;
+    private PlaceWrapper placeWrapper;
 
     private String LOG_TAG = DetailActivity.class.getCanonicalName();
     @Override
@@ -50,9 +52,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("places");
-        Intent intent = getIntent();
-        final PlaceWrapper placeWrapper = intent.getParcelableExtra(MainActivity.PLACE_KEY);
+        final Intent intent = getIntent();
+
+        placeWrapper = intent.getParcelableExtra(MainActivity.PLACE_KEY);
         final String placeId = placeWrapper.id;
+        contributorDB = intent.getParcelableExtra(MainActivity.CONT_KEY);
 
         addressTextView = (TextView) findViewById(R.id.address_textview);
         phoneNumberTextView = (TextView) findViewById(R.id.phone_textview);
@@ -73,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent inputIntent = new Intent(DetailActivity.this, InputActivity.class);
                         inputIntent.putExtra(MainActivity.PLACE_KEY, placeWrapper);
+                        inputIntent.putExtra(MainActivity.CONT_KEY, contributorDB);
                         startActivity(inputIntent);
                     }
                 }
@@ -158,34 +163,55 @@ public class DetailActivity extends AppCompatActivity {
         String url ="https://maps.googleapis.com/maps/api/place/details/json?placeid="+ placeWrapper.id + "&key=AIzaSyDX6lEQZCGZ4io-K4GSpnQ1zJCJ-bLNw6o";
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        Log.d(LOG_TAG, response);
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            JSONArray photos = jsonResponse.getJSONObject("result").getJSONArray("photos");
-                            String photoReference = photos.getJSONObject(0).getString("photo_reference");
-                            String photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="
-                                + photoReference + "&key=AIzaSyDX6lEQZCGZ4io-K4GSpnQ1zJCJ-bLNw6o";
-                        } catch (Exception e) {
-                            Log.d(LOG_TAG, e.toString());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(LOG_TAG, "Volley Error");
-            }
-        });
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        // Display the first 500 characters of the response string.
+//                        Log.d(LOG_TAG, response);
+//                        try {
+//                            JSONObject jsonResponse = new JSONObject(response);
+//                            JSONArray photos = jsonResponse.getJSONObject("result").getJSONArray("photos");
+//                            String photoReference = photos.getJSONObject(0).getString("photo_reference");
+//                            String photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="
+//                                + photoReference + "&key=AIzaSyDX6lEQZCGZ4io-K4GSpnQ1zJCJ-bLNw6o";
+//                        } catch (Exception e) {
+//                            Log.d(LOG_TAG, e.toString());
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d(LOG_TAG, "Volley Error");
+//            }
+//        });
+//
+//// Add the request to the RequestQueue.
+//        queue.add(stringRequest);
     }
 
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putParcelable(MainActivity.CONT_KEY, contributorDB);
+//        outState.putParcelable(MainActivity.PLACE_KEY, placeWrapper);
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        placeWrapper = savedInstanceState.getParcelable(MainActivity.PLACE_KEY);
+//        contributorDB = savedInstanceState.getParcelable(MainActivity.CONT_KEY);
+//    }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.CONT_KEY, contributorDB);
+        intent.putExtra(MainActivity.PLACE_KEY, placeWrapper);
+    }
 }
 
 

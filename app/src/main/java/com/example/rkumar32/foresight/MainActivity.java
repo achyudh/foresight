@@ -28,8 +28,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -37,16 +40,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public static final int PLACE_PICKER_REQUEST = 1;
     public static final int RC_SIGN_IN = 2;
     public static final String PLACE_KEY = "place";
+    public static final String CONT_KEY = "cont";
     public static final String LOG_TAG = MainActivity.class.getCanonicalName();
     public GoogleApiClient mGoogleApiClient;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private Button mButton;
+    private Contributor contributorDB;
+    private PlaceWrapper placeWrapper;
     private SignInButton signInButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (getIntent().hasExtra(CONT_KEY)) {
+            contributorDB = getIntent().getParcelableExtra(CONT_KEY);
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -83,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 break;
                     }
                 }});
+//        if(contributorDB == null)
+//            signIn();
     }
 
     private void signIn() {
@@ -96,7 +108,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Place place = PlacePicker.getPlace(this, data);
                 mButton.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(this, DetailActivity.class);
-                intent.putExtra(PLACE_KEY, new PlaceWrapper(place));
+                placeWrapper = new PlaceWrapper(place);
+                intent.putExtra(PLACE_KEY, placeWrapper);
+                intent.putExtra(CONT_KEY, contributorDB);
                 startActivity(intent);
             }
         }
@@ -122,14 +136,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                // Name, email address, and profile photo Url
-                                String name = user.getDisplayName();
-                                String email = user.getEmail();
-                                String uid = user.getUid();
-                                Contributor contribObj = new Contributor(name, email, uid, 0, 0, 0, 0, 0, 0);
-                                mDatabase.child("users").child(contribObj.uid).setValue(contribObj);
+                                mDatabase.child("users").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        int pointsToIncr = 1;
+                                        contributorDB = snapshot.getValue(Contributor.class);
+                                        if (contributorDB == null) {
+                                            contributorDB = new Contributor(user.getDisplayName(), user.getEmail(), user.getUid(), 0, 0, 0, 0, 0, 0);
+                                            mDatabase.child("users").child(contributorDB.uid).setValue(contributorDB);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError firebaseError) {
+                                        System.out.println("Firebase place read failed: " + firebaseError.getMessage());
+                                    }
+                                });
 
                                 Intent intent = new Intent(MainActivity.this, UserActivity.class);
                                 startActivity(intent);
@@ -158,5 +183,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MainActivity.CONT_KEY, contributorDB);
+        outState.putParcelable(MainActivity.PLACE_KEY, placeWrapper);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        placeWrapper = savedInstanceState.getParcelable(MainActivity.PLACE_KEY);
+        contributorDB = savedInstanceState.getParcelable(MainActivity.CONT_KEY);
     }
 }
